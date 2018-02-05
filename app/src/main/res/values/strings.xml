@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">tlazaren-SubBook</string>
+    <string name="title_activity_view_subsciption">viewSubsciption</string>
+    <string name="title_activity_create_subscription">createSubscription</string>
+    <string name="create">New Subscription</string>
+    <string name="modify">Modify Subscription</string>
+    <string name="name">Name</string>
+    <string name="charge">Charge</string>
+    <string name="date">Date</string>
+    <string name="comment">Comment</string>
+    <string name="submit">Submit</string>
+    <string name="Delete">Delete</string>
+</resources>
