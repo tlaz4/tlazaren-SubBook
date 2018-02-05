@@ -27,8 +27,13 @@ import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+/*
+/ Main activity class of the app
+/ Handles the the listview of subscriptions to view all, also serves as the main navigation page
+/ to create a new subscription or modify an existing one
+ */
 public class MainActivity extends AppCompatActivity {
-
+    /* variables of this class */
     private static final String FILENAME = "subs.sav";
 
     private ListView allSubscriptions;
@@ -43,6 +48,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /* get intent from other activities, if intent exists, update the subscriptionData with the new subscriptionData
+        * containing all subscriptions
+        * else no intent exists, we must load from file the subscriptions
+        */
         Intent intent = getIntent();
         if(intent.getExtras() != null){
             subscriptions = (SubscriptionData) intent.getExtras().getSerializable("subscriptions");
@@ -50,10 +59,13 @@ public class MainActivity extends AppCompatActivity {
             loadFromFile();
         }
 
+        /*get all xml elements*/
         total = findViewById(R.id.total);
         create = findViewById(R.id.create);
         allSubscriptions = (ListView) findViewById(R.id.allSubscriptions);
 
+        /* set a click event for each subscription element so they can be viewed in detail
+        * passing the SubscriptionData object and the index of the element to viewSubscription*/
         allSubscriptions.setClickable(true);
         allSubscriptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /* set click event to handle create subcription, pass to createSubscription with SubscriptionData*/
         create.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(), createSubscription.class);
@@ -78,16 +91,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
 
+        /* create a new adapter from SubscriptionData's list to a listview */
         adapter = new ArrayAdapter<Subscription>(this,
                 android.R.layout.simple_list_item_1, subscriptions.getSubscriptions() );
         allSubscriptions.setAdapter(adapter);
 
+        /* get the total of all subscriptions and display it */
         total.setText("Total: $" + (subscriptions.getTotalCharges()).toString());
         saveInFile();
     }
 
     // adapted from https://github.com/ta301-ks/lonelyTwitter/blob/w18TueLab3/app/src/main/java/
     // ca/ualberta/cs/lonelytwitter/LonelyTwitterActivity.java
+    // loads existing subscriptions from a file
     private void loadFromFile() {
 
         try {
@@ -96,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
             Gson gson = new Gson();
 
-            // Taken https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
+            // Taken from https://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             // 2018-01-23
             Type listType = new TypeToken<ArrayList<Subscription>>() {
             }.getType();
@@ -112,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     // adapted from https://github.com/ta301-ks/lonelyTwitter/blob/w18TueLab3/app/src/main/java
     // /ca/ualberta/cs/lonelytwitter/LonelyTwitterActivity.java
+    // saves existing subscriptions to a file
     private void saveInFile() {
         try {
             FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);

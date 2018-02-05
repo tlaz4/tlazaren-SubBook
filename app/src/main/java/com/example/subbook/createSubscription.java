@@ -13,8 +13,13 @@ import android.widget.EditText;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+/*
+/ class for the user to create a new subscription
+/ handles string to valid Date object functionality
+/ creating a new subscription will take the user to a list consisting of all subscriptions
+ */
 public class createSubscription extends AppCompatActivity {
+    /* variables of this class */
     private EditText name;
     private EditText charge;
     private EditText date;
@@ -28,14 +33,18 @@ public class createSubscription extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_subscription);
 
+        /* retrieve all xml elements */
         name = findViewById(R.id.newSubName);
         charge = findViewById(R.id.newSubCharge);
         date = findViewById(R.id.newSubDate);
         comment = findViewById(R.id.newSubComment);
         button = findViewById(R.id.submitSub);
 
+        /* get all existing subscriptions so we can add to them*/
         subscriptions = (SubscriptionData)getIntent().getExtras().getSerializable("createSubs");
 
+        /* set click event to create a new subscriptions, getting all data, formatting it,
+        * passing it into a new subscription object, and adding it to SubscriptionData, then return to the mainActivity*/
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String newName = name.getText().toString();
@@ -56,8 +65,10 @@ public class createSubscription extends AppCompatActivity {
     }
 
     /*
-    /adopted from http://www.java2s.com/Tutorial/Java/0040__Data-Type/SimpleDateFormat.htm
-     */
+    / https://stackoverflow.com/questions/9945072/convert-string-to-date-in-java
+    / Boris Strandjev
+    / A function to convert a string yyyy-mm-dd into a valid Date object
+    */
     static public Date stringToDate(String dateStr){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
         Date newDate = new Date();
