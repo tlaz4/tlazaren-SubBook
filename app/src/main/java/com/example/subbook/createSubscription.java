@@ -67,6 +67,7 @@ public class createSubscription extends AppCompatActivity {
     /*
     / https://stackoverflow.com/questions/9945072/convert-string-to-date-in-java
     / Boris Strandjev
+    / 2018-02-04
     / A function to convert a string yyyy-mm-dd into a valid Date object
     */
     static public Date stringToDate(String dateStr){
